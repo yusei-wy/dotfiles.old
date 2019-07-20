@@ -56,22 +56,21 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
-# branch 名が表示できないのでコメントアウト
-# if [ "$color_prompt" = yes ]; then
-#     PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-# else
-#     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-# fi
-# unset color_prompt force_color_prompt
+if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+fi
+unset color_prompt force_color_prompt
 
-# # If this is an xterm set the title to user@host:dir
-# case "$TERM" in
-# xterm*|rxvt*)
-#     PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-#     ;;
-# *)
-#     ;;
-# esac
+# If this is an xterm set the title to user@host:dir
+case "$TERM" in
+xterm*|rxvt*)
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    ;;
+*)
+    ;;
+esac
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -116,30 +115,19 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-[ -r /home/yuro/.byobu/prompt ] && . /home/yuro/.byobu/prompt   #byobu-prompt#
 
-
-# gvm にパスを通し, 使用バージョンを決定し, $GOPATH を設定している
-[[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
-gvm use go1.8.3
-
-# node
-nodebrew use v8.4.0
-
-# Prompt
+# --- Prompt ---
 # Git ブランチ名を表示
 # http://qiita.com/koyopro/items/3fce94537df2be6247a3
 GIT_PS1_SHOWDIRTYSTATE=true
 export PS1='\h\[\033[00m\]:\W\[\033[31m\]$(__git_ps1 [%s])\[\033[00m\]\$ '
-
-# wakatime
-source $HOME/bash-wakatime/bash-wakatime.sh
-
-# rust
-source $HOME/.cargo/env
 
 # set prompt
 RED="\[\033[0;31m\]"
 GREEN="\[\033[0;32m\]"
 CYAN="\[\033[0;36m\]"
 RESET="\[\033[0m\]"
+
+# --- wakatime ---
+source $HOME/bash-wakatime/bash-wakatime.sh
+

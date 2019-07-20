@@ -21,11 +21,15 @@ if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
 
-# gibo {{{
-export PATH=$HOME/gibo:$PATH
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
+
+# gibo {{{=$HOME/gibo:$PATH
 # }}}
 
-# nodebrew
+# # nodebrew
 export PATH=$HOME/.nodebrew/current/bin:$PATH
 
 # pyenv && virtualenv
@@ -34,14 +38,53 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
-# Vagrat
-export VAGRANT_HOME=/mnt/HDD01/.vagrant.d
-export PATH=$VAGRANT_HOME:$PATH
+# pipenv
+# プロジェクト直下に仮想環境を作成
+export PIPENV_VENV_IN_PROJECT=1
 
-# Add path to yarn global
-export PATH="$PATH:`yarn global bin`"
+# rbenv
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
+
+# Vagrat
+export VAGRANT_HOME=/mnt/HDD01/.vagrant.d=$VAGRANT_HOME:$PATH
+
+# # Add path to yarn global
+# export PATH="$PATH:`yarn global bin`"
 
 # neovim
 export XDG_CONFIG_HOME=~/.config
+export TERM=xterm
+
+# rust="$HOME/.cargo/bin:$PATH"
+# Initialization for FDK command line tools.Fri May 25 16:21:29 2018
+FDK_EXE="/home/yuro/bin/FDK/Tools/linux"
+PATH=${PATH}:"/home/yuro/bin/FDK/Tools/linux"
+export PATH
+export FDK_EXE
 
 export PATH="$HOME/.cargo/bin:$PATH"
+
+# linuxbrew
+export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+export MANPATH="/home/linuxbrew/.linuxbrew/share/man:$MANPATH"
+export INFOPATH="/home/linuxbrew/.linuxbrew/share/info:$INFOPATH"
+
+# goenv
+export GOENV_ROOT=$HOME/.goenv
+export PATH=$GOENV_ROOT/bin:$PATH
+
+# golagn
+export GOPATH=$HOME/go
+export PATH="$GOPATH/bin:$PATH"
+
+# rust
+export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
+
+# java
+export JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64
+export JUNIT_HOME=~/junit
+
+# direnv
+eval "$(direnv hook bash)"
+eval "$(goenv init -)"
